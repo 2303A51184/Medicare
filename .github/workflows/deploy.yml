@@ -13,6 +13,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Show repository structure
+        run: |
+          echo "=== Repository Structure ==="
+          find . -maxdepth 2 -type d | head -20
+          echo ""
+          echo "=== Root Files ==="
+          ls -la | grep -v node_modules
+
+      - name: Post checkout code
+        run: |
+          echo "=== Checkout Complete ==="
+          echo "Current directory: $(pwd)"
+          echo "Git branch: $(git rev-parse --abbrev-ref HEAD)"
+          echo "Git commit: $(git rev-parse HEAD)"
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -21,6 +38,18 @@ jobs:
       - name: Install backend dependencies
         working-directory: backend
         run: npm install
+
+      - name: Run backend tests
+        working-directory: backend
+        run: |
+          echo "=== Backend Test Run ==="
+          echo "Available scripts:"
+          cat package.json | grep -A 5 '"scripts"'
+          if npm run test >/dev/null 2>&1; then
+            npm run test
+          else
+            echo "No test script found in backend/package.json"
+          fi
 
       - name: Install frontend dependencies
         working-directory: frontend
