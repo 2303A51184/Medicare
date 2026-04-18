@@ -1,5 +1,7 @@
 # Medicare Project
 
+[![Build Status](https://github.com/2303A51184/Medicare/actions/workflows/deploy.yml/badge.svg)](https://github.com/2303A51184/Medicare/actions/workflows/deploy.yml)
+
 This repository contains a Medicare application with three main folders:
 
 - `admin/` — Admin frontend application
